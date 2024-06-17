@@ -21,10 +21,9 @@ class DigitalSignature:
 
 
 # Symmetric
-file = "secret_key.jwk"
 alg = "HS256"
-SymmetricKey.gen_key(file)
-secret_key = SymmetricKey.get_key(file)
+SymmetricKey.gen_key()
+secret_key = SymmetricKey.get_key()
 signed_msg = DigitalSignature.sign(secret_key, alg)
 verify = DigitalSignature.verify(signed_msg, secret_key)
 

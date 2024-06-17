@@ -3,14 +3,14 @@ from joserfc import jwk
 
 class SymmetricKey:
     @classmethod
-    def gen_key(cls, file, key_size=256):
+    def gen_key(cls, file="secret.key", key_size=256):
         key = jwk.OctKey.generate_key(key_size)
         key = key.raw_value
         with open(file, "wb") as f:
             f.write(key)
 
     @classmethod
-    def get_key(cls, file):
+    def get_key(cls, file="secret.key"):
         with open(file, "rb") as f:
             key = f.read()
             return jwk.OctKey.import_key(key)
