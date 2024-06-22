@@ -18,10 +18,9 @@ class Cryptography:
 
 
 # Symmetric
-file = "secret_key.jwk"
 alg = "A128KW"
-SymmetricKey.gen_key(file, 128)
-secret_key = SymmetricKey.get_key(file)
+SymmetricKey.gen_key(key_size=128)
+secret_key = SymmetricKey.get_key()
 data = Cryptography.encrypt(secret_key, alg)
 data = Cryptography.decrypt(data, secret_key)
 
