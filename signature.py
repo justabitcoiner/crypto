@@ -1,23 +1,28 @@
+import time
 from joserfc import jwt
 from crypto_key import SymmetricKey, AsymmetricKey
 
 
 class DigitalSignature:
     @classmethod
-    def sign(cls, key, alg):
+    def sign(cls, key, alg, ttl=5 * 60) -> str:
         header = {"alg": alg}
-        claims = {"iss": "justabitcoiner"}
+        claims = {"iss": "justabitcoiner", "exp": time.time() + ttl}
         token_str = jwt.encode(header, claims, key)
         print("[x] token_str:", token_str)
         return token_str
 
     @classmethod
-    def verify(cls, value, key, alg):
+    def verify(cls, value, key, alg) -> bool:
         token_obj = jwt.decode(value, key, [alg])
         header = token_obj.header
         claims = token_obj.claims
-        print("[x] token_obj:", header, claims)
-        return token_obj
+        claims_registry = jwt.JWTClaimsRegistry()
+        try:
+            claims_registry.validate(claims)
+            return True
+        except Exception as e:
+            return False
 
 
 # Symmetric
