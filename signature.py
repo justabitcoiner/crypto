@@ -1,4 +1,4 @@
-import time
+import time, uuid
 from joserfc import jwt
 from crypto_key import SymmetricKey, AsymmetricKey
 
@@ -7,7 +7,11 @@ class DigitalSignature:
     @classmethod
     def sign(cls, key, alg, ttl=5 * 60) -> str:
         header = {"alg": alg}
-        claims = {"iss": "justabitcoiner", "exp": time.time() + ttl}
+        claims = {
+            "iss": "justabitcoiner",
+            "jti": uuid.uuid4().int,
+            "exp": time.time() + ttl,
+        }
         token_str = jwt.encode(header, claims, key)
         print("[x] token_str:", token_str)
         return token_str
